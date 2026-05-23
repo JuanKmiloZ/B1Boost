@@ -1,3 +1,4 @@
 plyer
 fastapi
 uvicorn
+jinja2
