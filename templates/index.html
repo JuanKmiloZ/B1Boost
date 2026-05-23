@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B1Boost Web 🚀</title>
+    <style>
+        /* --- EL DISEÑO (CSS) --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #eef2f3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .card {
+            background: white;
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+            margin-bottom: 25px;
+            transition: transform 0.2s;
+        }
+
+        h2 { 
+            color: #2c3e50; 
+            margin-top: 0;
+            font-size: 1.6em;
+        }
+
+        p { 
+            color: #576574; 
+            font-size: 1.15em; 
+            line-height: 1.6;
+            margin-bottom: 0;
+        }
+
+        button {
+            background-color: #10ac84;
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            font-size: 1.05em;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(16, 172, 132, 0.3);
+            transition: all 0.2s;
+        }
+
+        button:hover { 
+            background-color: #1dd1a1;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(16, 172, 132, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2 id="tema">Cargando...</h2>
+        <p id="detalle">Conectando con el backend...</p>
+    </div>
+
+    <button onclick="traerTarjeta()">Siguiente Tarjeta 🚀</button>
+
+    <script>
+        // Esta función va al backend en silencio a pedir una tarjeta nueva
+        async function traerTarjeta() {
+            try {
+                // El 'fetch' es el mensajero que va a la ruta que creamos en FastAPI
+                const respuesta = await fetch('/tarjeta');
+                const datos = await respuesta.json();
+                
+                // Aquí tomamos los datos del JSON y los dibujamos en el HTML
+                document.getElementById('tema').innerText = datos.tema;
+                
+                // Como en tus datos usas la clave 'detail' o 'regla', validamos cuál viene
+                document.getElementById('detalle').innerText = datos.detail || datos.regla || "Sin detalle disponible";
+            } catch (error) {
+                console.error("Error al traer la tarjeta:", error);
+                document.getElementById('tema').innerText = "Error ❌";
+                document.getElementById('detalle').innerText = "No se pudo conectar con el servidor FastAPI.";
+            }
+        }
+
+        // Este comando hace que apenas se abra la página en el navegador, 
+        // se cargue la primera tarjeta automáticamente sin esperar el clic.
+        traerTarjeta();
+    </script>
+
+</body>
+</html>
