@@ -8,6 +8,6 @@ from notifier import lanzar_alerta
 
 while True:
     lanzar_alerta(TARJETAS)
-    tiempo_sorpresa=random.randit(5400,9000)
+    tiempo_sorpresa=random.randint(5400,9000)
     time.sleep(tiempo_sorpresa)
 
